@@ -1,0 +1,25 @@
+.square_marron_fonce{
+    width: 50px;
+    height:50px;
+    background-color: green;
+    float: left;
+    border : solid 1px black;
+    margin-top:-1px;
+    margin-right:-1px;
+}
+
+.square_marron_pale{
+    width: 50px;
+    height:50px;
+    background-color: white;
+    float: left;
+    border : solid 1px black;
+    margin-top:-1px;
+    margin-right:-1px;
+}
+
+.board{
+   width:408px;
+   height:408px;
+   background-color: blue; 
+}
