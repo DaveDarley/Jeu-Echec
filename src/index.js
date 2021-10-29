@@ -27,17 +27,16 @@ class Board extends React.Component{
 
         this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
         this.deplacement = this.deplacement.bind(this);
-
-
     }
 
 
-        firstCaseClicked=[];
-        secondCaseClicked = [];
-        indPieceToRemove ; 
+    firstCaseClicked=[]; 
+    secondCaseClicked = [];
 
-        squares = [];
-        allPiecesInPlay = [];
+    indPieceToRemove ; 
+
+    squares = []; // ca contient les carreaux de mon jeu d'echec
+    allPiecesInPlay = []; // ca contient tous les pieces de mon jeu d'echec
 
        
     // Comme je modifie mon tableau a chaque fois 
@@ -462,8 +461,6 @@ class Board extends React.Component{
         }
         if(nomPiece == 'rook'){ // Si il y a une piece qui a le meme x que la ou on veut bouger la tour, on peut pas le depasser
 
-            console.log('je suis entre ici pour reine en deuxieme'); // test
-
             var diff = Math.abs(this.firstCaseClicked[0] - this.secondCaseClicked[0]);
 
             for(var i = 0; i<this.allPiecesInPlay.length; i++){
@@ -473,10 +470,6 @@ class Board extends React.Component{
                 
 
                 if(actualPieceY == parseFloat(this.secondCaseClicked[1]) || actualPieceX == parseFloat(this.secondCaseClicked[0])){
-
-                    
-
-                    
 
                     if(this.ifBetweenTwoValues(parseFloat(this.secondCaseClicked[0]),actualPieceX,parseFloat(this.firstCaseClicked[0]))||
                        this.ifBetweenTwoValues(parseFloat(this.secondCaseClicked[1]),actualPieceY,parseFloat(this.firstCaseClicked[1]))){ 
@@ -500,8 +493,6 @@ class Board extends React.Component{
         }
        
         if(nomPiece == 'bishop'){
-
-            console.log('je suis entre ici pour reine en premier');
 
                 var i = Math.abs(this.firstCaseClicked[0] - this.secondCaseClicked[0]);
 
@@ -556,36 +547,9 @@ class Board extends React.Component{
                         }  
                     }    
                 }
-
-
-
-/*
-                    if(this.actualPieceX == this.firstCaseClicked[0]+j || actualPieceX == this.firstCaseClicked[0]-j &&
-                        actualPieceY == this.firstCaseClicked[1]+j || actualPieceY == this.firstCaseClicked[1]-j){
-
-                            if(this.ifBetweenTwoValues(parseFloat(this.secondCaseClicked[0]),actualPieceX,parseFloat(this.firstCaseClicked[0])) ||
-                            this.ifBetweenTwoValues(parseFloat(this.secondCaseClicked[1]),actualPieceY,parseFloat(this.firstCaseClicked[1]))){ 
-     
-                                console.log('je suis bien au fonc de mon if ');
-                                console.log('actualPieceX '+actualPieceX);
-                                console.log('actualPieceY'+actualPieceY);
-                                console.log(' x case clique ' + this.secondCaseClicked[0]);
-                                console.log(' y case clique ' + this.secondCaseClicked[1])
-                                console.log('---------Fin Test---------')
-     
-                                 this.firstCaseClicked=[];
-                                 this.secondCaseClicked=[];
-     
-                         
-                             
-                             }
-                    }*/
-
                 }
                 console.log(this.firstCaseClicked);
                 console.log(this.secondCaseClicked);
-                
-            
         }
 
     }
@@ -595,13 +559,16 @@ class Board extends React.Component{
         return false;
     }
 
-    initialBoard(){
 
-        
-        //Qd on commence le jeu , allPiecesInPlay est vide mais des qu'on commence allPiecesInplay s'ajuste en fonction
-         //des pieces presentes dans le jeu !!
-         //*Apres chaque deplacement d'une case, on appel la fonction qui affiche le board en fonction des pieces presentes dans 
-        // dans allPiecesInPlay
+
+    /*
+        Fonction qui s'occupe de dessiner le tableau initial. 
+        Au debut mon tableau allPiecesInPlay, qui est cense avoir tous les pieces du jeu , est vide
+        Comme chaque piece a des coordonnees (x,y); a chaque deplacement qui se fait (changement x et/ou y d'une piece)
+        on rappelle cette fonction qui va s'occuper de placer les pieces a leurs coordonnees respectives
+    */
+
+    initialBoard(){
         
         if(this.allPiecesInPlay.length == 0){
 
@@ -633,158 +600,165 @@ class Board extends React.Component{
  
  
  
-         for(let i = 0;i<8;i++){
-             for(let j = 0;j<8;j++){
- 
-                 var tmp = j;
-                 if(i%2!=0){
- 
-                     
-                     if(j%2==0){
- 
-                     if(i==7){
-                         this.allPiecesInPlay.push(whitePieces[tmp]); // Test 
- 
-                         this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         {whitePieces[tmp]}</div>)
-                     }
- 
-                     if (i==1){
-                         this.allPiecesInPlay.push(<Pion couleur='noir' nom='Pion' x={i} y={j} />); // test
- 
-                         this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         <Pion couleur='noir' nom='Pion' x={i} y={j} /></div>)
-                       }
-                     if(i!=1 && i!=7){
-                         this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>) 
-                      }
- 
-                     }else{
- 
-                     if(i==7){
-                         this.allPiecesInPlay.push(whitePieces[tmp]); // Test 
- 
-                         this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         {whitePieces[tmp]}</div>)
-                     }
- 
-                         if (i==1){
-                             this.allPiecesInPlay.push(<Pion couleur='noir' nom='Pion' x={i} y={j} />); // Test 
- 
-                             this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                             <Pion couleur='noir' nom='Pion' x={i} y={j} /></div>)
-                           }
-                           if(i!=7 && i!=1){
-                             this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>) 
-                          }
-                     }
-                 }else{
+         for(let i = 0;i<8;i++){ // Ligne
+             for(let j = 0;j<8;j++){ // Colonne
+                var tmp = j;
+                /*
+                    Idee: Pour les lignes impair(1,3,5,...), les colonnes pairs auront comme couleur 
+                    vert et les colonnes impairs auront comme couleur blanc;
 
-                    if(j%2==0){
+                    Pour les lignes pairs, les colonnes pairs auront la couleur blanche et les colonnes
+                    impairs auront comme couleur vert
+                */
+                if(i%2!=0){ 
+                    if(j%2 == 0){ // Pour une ligne impair et les colonnes paires
  
-                     if(i==0){
-                         this.allPiecesInPlay.push(blackPieces[tmp]); // test
-                         
-                         this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         {blackPieces[tmp]}</div>)
-                     }
+                        if(i==7){ // je met les pieces blanches
+                            this.allPiecesInPlay.push(whitePieces[tmp]); 
+                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            {whitePieces[tmp]}</div>)
+                        }
+    
+                        if (i==1){  // je met les pions noirs
+                            this.allPiecesInPlay.push(<Pion couleur='noir' nom='Pion' x={i} y={j} />); 
+                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            <Pion couleur='noir' nom='Pion' x={i} y={j} /></div>)
+                        }
+
+                        if(i!=1 && i!=7){ 
+                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>) 
+                        }
  
-                     if(i==6){
-                         this.allPiecesInPlay.push(<Pion couleur='blanc' nom='Pion' x={i} y={j} />) // test
+                    }else{ // pour une ligne impair et les colonnes impaires
  
-                         this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         <Pion couleur='blanc' nom='Pion' x={i} y={j} /></div>)
-                     }
-                     if(i!=0 && i!=6){
-                       this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)
-                     }
+                        if(i==7){
+                            this.allPiecesInPlay.push(whitePieces[tmp]); 
+                            this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            {whitePieces[tmp]}</div>)
+                        }
+
+                        if (i==1){
+                            this.allPiecesInPlay.push(<Pion couleur='noir' nom='Pion' x={i} y={j} />); // Test 
+                            this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            <Pion couleur='noir' nom='Pion' x={i} y={j} /></div>)
+                        }
+
+                        if(i!=7 && i!=1){
+                            this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>) 
+                        }
+                    }
+
+                }else{ 
+
+                    if(j%2 == 0){ // Ligne impair et colonne pair
  
-                   }else{
+                        if(i==0){
+                            this.allPiecesInPlay.push(blackPieces[tmp]); 
+                            this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            {blackPieces[tmp]}</div>)
+                        }
  
-                     if(i==0){
-                         this.allPiecesInPlay.push(blackPieces[tmp]) // test
+                        if(i==6){
+                            this.allPiecesInPlay.push(<Pion couleur='blanc' nom='Pion' x={i} y={j} />) 
+                            this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            <Pion couleur='blanc' nom='Pion' x={i} y={j} /></div>)
+                        }
+
+                        if(i!=0 && i!=6){
+                            this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)
+                        }
  
-                         this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         {blackPieces[tmp]}</div>)
-                     }
+                   }else{ // Ligne impair et colonne impair
  
-                     if(i==6){
-                         this.allPiecesInPlay.push(<Pion couleur='blanc' nom='Pion' x={i} y={j} />) // test 
- 
-                         this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
-                         <Pion couleur='blanc' nom='Pion' x={i} y={j} /></div>)
-                     }
-                     if(i!=0 && i!=6){
-                       this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)
-                     }
+                        if(i==0){
+                            this.allPiecesInPlay.push(blackPieces[tmp]);
+                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            {blackPieces[tmp]}</div>)
+                        }
+
+                        if(i==6){
+                            this.allPiecesInPlay.push(<Pion couleur='blanc' nom='Pion' x={i} y={j} />) // test 
+                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>
+                            <Pion couleur='blanc' nom='Pion' x={i} y={j} /></div>)
+                        }
+                        if(i!=0 && i!=6){
+                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)
+                        }
  
                     }
  
-                 }
-             }
-         }
-        }else{ // refaire le board a chaque move ; pas tres algorithmique mais bon j'essaie de le refaire apres!!!
-
-        // Verification si le jeu a ete gagne:
-        var nbKing = 0;
-        var winningColor  = [];
-        for ( var k = 0; k<this.allPiecesInPlay.length; k++){
-            if(this.allPiecesInPlay[k].props.nom == 'king'){
-               nbKing++;
-               winningColor.push(this.allPiecesInPlay[k].props.couleur)
+                }
             }
         }
+        }else{ // Qd mon jeu est deja en cours et donc allPiecesInPlay.length != 0
+              // refaire le board a chaque move ; pas tres algorithmique 
 
-        if(nbKing == 1){
-        return <h1>Les {winningColor[0]+'s'} ont gagne la partie, Felicitations :)</h1>
-        }
-
-
-        this.squares = []; // Pour refaire le board, on vide squares!!!
-        
-        for(let i = 0;i<8;i++){
-            for(let j = 0;j<8;j++){
-                for(var l = 0;l<this.allPiecesInPlay.length; l++){
-
-                if(i ==  parseFloat(this.allPiecesInPlay[l].props.x) && j ==  parseFloat(this.allPiecesInPlay[l].props.y)){
-
-                   var x = parseFloat(this.allPiecesInPlay[l].props.x);
-                   var y = parseFloat(this.allPiecesInPlay[l].props.y);
-                   var k = l;
-
-
+            /*
+                Ici je verifie qui a gagne en comptant le nombre de roi qui a dans le jeu
+            */
+            var nbKing = 0;
+            var winningColor  = [];
+            for ( var k = 0; k<this.allPiecesInPlay.length; k++){
+                if(this.allPiecesInPlay[k].props.nom == 'king'){
+                nbKing++;
+                // la j'ajoute la couleur du roi dans mon tableau, pour savoir quelle equipe a gagne (blanc ou noir)
+                winningColor.push(this.allPiecesInPlay[k].props.couleur)
                 }
+            }
 
-                }
+            if(nbKing == 1){ // si nb de roi == 1 alors , une equipe a mange un roi et donc on a un vainqueur 
+                return <h1>Les {winningColor[0]+'s'} ont gagne la partie, Felicitations :)</h1>
+            }
+
+
+            this.squares = []; // Pour refaire le board, on vide squares!!!
+            
+            for(let i = 0;i<8;i++){
+                for(let j = 0;j<8;j++){
+
+                    for(var l = 0;l<this.allPiecesInPlay.length; l++){
+                        /* 
+                        Si j'ai un i et un j qui correspond a une position d'une de me mes pieces, je recupere les coordonnees
+                        de cette piece dans mes variables x et y 
+                        */
+                        if(i ==  parseFloat(this.allPiecesInPlay[l].props.x) && j ==  parseFloat(this.allPiecesInPlay[l].props.y)){
+                        var x = parseFloat(this.allPiecesInPlay[l].props.x);
+                        var y = parseFloat(this.allPiecesInPlay[l].props.y);
+                        var k = l;
+                        }
+                    }
 
                     if(i%2!=0){
                         if(j%2==0){
-                        if(x==i && y==j){
-                            
 
-
-                            this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
-                           else{this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
+                            if(x==i && y==j){
+                                this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
+                            else{this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
                     
                         }else{
-                            if(x==i && y==j){this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
+
+                            if(x==i && y==j){
+                                this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
                             else{this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
                         }
+
                     }else{
 
-                    if(j%2==0){
-                        if(x==i && y==j){this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
-                           else{this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
-                            }else{
-                                if(x==i && y==j){this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
-                                else{this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
-                                }
+                        if(j%2==0){
+                            if(x==i && y==j){
+                                this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
+                            else{this.squares.push(<div className="square_marron_pale" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
+                        }else{
+
+                            if(x==i && y==j){
+                                    this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}>{this.allPiecesInPlay[k]}</div>)}
+                            else{this.squares.push(<div className="square_marron_fonce" data-id={[i,j]} onClick={this.deplacement.bind(this)}></div>)}
+                        }
 
                     }
-                
+                    
+                }
             }
-        }
-
         }
 
         // Un petit test:
@@ -792,25 +766,11 @@ class Board extends React.Component{
 
     }
 
-    
-
-
-
-
     render(){
-
-
-    return(
-        
-        this.initialBoard()
-        ) ;
+        return(
+            this.initialBoard()
+            ) ;
     }
-
-
-
-
-
-
 }
 
 export default Board;
